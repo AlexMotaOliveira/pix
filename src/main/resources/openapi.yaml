@@ -1,0 +1,137 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: Swagger Petstore - OpenAPI 3.0
+paths:
+  /pix:
+    post:
+      tags:
+        - pix
+      summary: adiciona uma nova chave no cadastro do pix
+      description: adiciona uma nova chave no cadastro do pix
+      operationId: criarChavePix
+      requestBody:
+        description: Criar uma nova chave no cadastro do pix
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PixCriarNovaChave'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Id'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+components:
+  schemas:
+    PixCriarNovaChave:
+      required:
+        - tipoChave
+        - valorChave
+        - tipoConta
+        - numeroAgencia
+        - numeroConta
+        - nomeCorrentista
+      type: object
+      properties:
+        tipoChave:
+          $ref: '#/components/schemas/TipoChave'
+        valorChave:
+          type: string
+          maximum: 77
+          minimum: 1
+        tipoConta:
+          $ref: '#/components/schemas/TipoConta'
+        numeroAgencia:
+          type: number
+          minimum: 4
+          maximum: 4
+        numeroConta:
+          type: number
+          minimum: 8
+          maximum: 8
+        nomeCorrentista:
+          type: string
+          minimum: 1
+          maximum: 30
+        sobrenomeCorrentista:
+          type: string
+          minimum: 1
+          maximum: 45
+    TipoChave:
+      type: string
+      enum:
+        - celular
+        - email
+        - cpf
+        - cnpj
+        - aleatorio
+    TipoConta:
+      type: string
+      enum:
+        - corrente
+        - poupanca
+    Pix:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        tipoChave:
+          $ref: '#/components/schemas/TipoChave'
+        valorChave:
+          type: string
+          maximum: 77
+          minimum: 1
+        tipoConta:
+          $ref: '#/components/schemas/TipoConta'
+        numeroAgencia:
+          type: number
+          minimum: 4
+          maximum: 4
+        numeroConta:
+          type: number
+          minimum: 8
+          maximum: 8
+        nomeCorrentista:
+          type: string
+          minimum: 1
+          maximum: 30
+        sobrenomeCorrentista:
+          type: string
+          minimum: 1
+          maximum: 45
+        dataCriacao:
+          type: string
+          format: date-time
+        dataInativacao:
+          type: string
+          format: date-time
+    Id:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+      example: fe88226e-b460-4abc-a759-576355e3f18a
+  requestBodies:
+    Pix:
+      description: criar uma nova chave
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PixCriarNovaChave'
+  responses:
+    Pix:
+      description: criar uma nova chave
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Id'
+          example:
+            id: fe88226e-b460-4abc-a759-576355e3f18a
