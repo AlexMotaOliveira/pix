@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.0</version>
+        <version>3.2.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.itau.pix</groupId>
@@ -28,11 +28,11 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
         <dependency>
@@ -55,11 +55,39 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <!--        <dependency>-->
-        <!--            <groupId>org.springframework.amqp</groupId>-->
-        <!--            <artifactId>spring-rabbit-test</artifactId>-->
-        <!--            <scope>test</scope>-->
-        <!--        </dependency>-->
+        <dependency>
+            <groupId>org.springframework.amqp</groupId>
+            <artifactId>spring-rabbit-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>0.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>0.2.6</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.mapstruct/mapstruct -->
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>1.6.0.Beta2</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>
@@ -67,23 +95,44 @@
             <plugin>
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>7.6.0</version>
                 <executions>
                     <execution>
                         <goals>
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>src/main/resources/openApi.yml</inputSpec>
+                            <inputSpec>src/main/resources/openapi.yaml</inputSpec>
                             <generatorName>spring</generatorName>
+                            <packageName>com.itau.pix</packageName>
                             <apiPackage>com.itau.pix.api</apiPackage>
-                            <modelPackage>com.itau.pix.api</modelPackage>
-                            <supportingFilesToGenerate>ApiUtil.java
-                            </supportingFilesToGenerate>
-                            <supportingFilesToGenerate>src/main/resources
-                            </supportingFilesToGenerate>
+                            <modelPackage>com.itau.pix.model</modelPackage>
+                            <typeMappings>integer=int,int=int</typeMappings>
                             <configOptions>
+                                <useSpringBoot3>true</useSpringBoot3>
                                 <delegatePattern>true</delegatePattern>
+                                <openApiNullable>true</openApiNullable>
+                                <dateLibrary>java8</dateLibrary>
+                                <generateBuilders>true</generateBuilders>
+                                <useBeanValidation>false</useBeanValidation>
+                                <documentationProvider>source</documentationProvider>
+                                <booleanGetterPrefix>is</booleanGetterPrefix>
+                                <hideGenerationTimestamp>true</hideGenerationTimestamp>
+                                <useTags>true</useTags>
+                                <typeMappings>integer=int,int=int</typeMappings>
+                                <useSwaggerAnnotations>true</useSwaggerAnnotations>
+                                <async>false</async>
+                                <returnResponse>true</returnResponse>
+                                <additionalModelTypeAnnotations>@SuppressWarnings({"hiding","static-method","unused"})
+                                </additionalModelTypeAnnotations>
                             </configOptions>
+                            <globalProperties>
+                                <debugOpenAPI>true</debugOpenAPI>
+                                <debugOperations>true</debugOperations>
+                                <interfaceOnly>true</interfaceOnly>
+                                <apiTests>true</apiTests>
+                                <modelTests>true</modelTests>
+                            </globalProperties>
                         </configuration>
                     </execution>
                 </executions>
@@ -101,8 +150,7 @@
                         <configuration>
                             <enableLazyInitialization>true</enableLazyInitialization>
                             <enableDirtyTracking>true</enableDirtyTracking>
-                            <enableAssociationManagement>true
-                            </enableAssociationManagement>
+                            <enableAssociationManagement>true</enableAssociationManagement>
                         </configuration>
                     </execution>
                 </executions>
@@ -114,13 +162,47 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
                 <configuration>
+                    <executable>true</executable>
+                    <additionalProperties>${project.description}</additionalProperties>
+                    <mainClass>src/main/java/com/itau/pix/PixApplication.java</mainClass>
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>1.5.5.Final</version>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.30</version>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>0.2.0</version>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
         </plugins>

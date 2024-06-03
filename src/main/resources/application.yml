@@ -1,0 +1,29 @@
+spring:
+    application:
+        name: pix
+    datasource:
+        driver-class-name: org.h2.Driver
+        name: pix
+        username: sa
+        password: 1234
+        url: jdbc:h2:mem:pix;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;AUTO_RECONNECT=TRUE;MODE=mysql;
+    jpa:
+        generate-ddl: on
+        open-in-view: on
+        show-sql: on
+        database-platform: org.hibernate.dialect.H2Dialect
+        properties:
+            hibernate:
+                format_sql: true
+    h2:
+        console:
+            enabled: on
+            path: /h2
+
+
+server:
+    port: 8080
+    servlet:
+        context-path: /
+
+
