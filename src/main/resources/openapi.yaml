@@ -1,137 +1,510 @@
 openapi: 3.0.3
 info:
   version: 1.0.0
-  title: Swagger Petstore - OpenAPI 3.0
+  title: Cadastro de Correntista - OpenAPI 3.0
+tags:
+  - name: Inclusao
+    description: "Inclusão de chaves Correntista"
+  - name: Alteracao
+    description: "Alteração de chaves Correntista"
+  - name: Inativacao
+    description: "Inativação de chaves Correntista"
+  - name: Consulta
+    description: "Consulta de chaves Correntista"
+servers:
+  - url: http://{host}
+    variables:
+      host:
+        default: localhost:8080
+        description: host para teste locais.
 paths:
-  /pix:
+  /cadastro:
     post:
       tags:
-        - pix
-      summary: adiciona uma nova chave no cadastro do pix
-      description: adiciona uma nova chave no cadastro do pix
-      operationId: criarChavePix
+        - Inclusao
+      summary: incluir uma nova chave no cadastro do pix
+      description: incluir uma nova chave no cadastro do pix
+      operationId: incluir
       requestBody:
-        description: Criar uma nova chave no cadastro do pix
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PixCriarNovaChave'
-        required: true
+        $ref: '#/components/requestBodies/PixIncluirRequest'
       responses:
         '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Id'
-        '400':
-          description: Invalid input
+          $ref: '#/components/responses/PixIncluirResponse'
         '422':
-          description: Validation exception
+          $ref: '#/components/responses/Error'
+  /cadastro/{id}:
+    patch:
+      tags:
+        - Alteracao
+      summary: altera uma chave no cadastro do pix
+      description: altera uma chave no cadastro do pix
+      operationId: alterar
+      parameters:
+        - $ref: '#/components/parameters/IdPath'
+      requestBody:
+        $ref: '#/components/requestBodies/PixAlterarBody'
+      responses:
+        '200':
+          $ref: '#/components/responses/PixAlterarResponse'
+        '404':
+          description: Id não localizado
+        '422':
+          $ref: '#/components/responses/Error'
+    delete:
+      tags:
+        - Inativacao
+      summary: inativa uma chave no cadastro do pix
+      description: inativa uma chave no cadastro do pix
+      operationId: inativar
+      parameters:
+        - $ref: '#/components/parameters/IdPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/PixIntivaResponse'
+        '404':
+          description: Id não localizado
+        '422':
+          $ref: '#/components/responses/Error'
+  /consulta:
+    get:
+      tags:
+        - Consulta
+      summary: lista as chaves no cadastro do pix
+      description: lista as chaves no cadastro do pix
+      operationId: listar
+      parameters:
+        - $ref: "#/components/parameters/IdQuery"
+        - $ref: "#/components/parameters/AgenciaConta"
+        - $ref: "#/components/parameters/TipoChave"
+        - $ref: "#/components/parameters/DataHoraInclusaoChave"
+        - $ref: "#/components/parameters/DataHoraInativacaoChave"
+      responses:
+        '200':
+          $ref: '#/components/responses/PixBuscaResponse'
+        '404':
+          description: Id não localizado
+        '422':
+          $ref: '#/components/responses/Error'
 components:
   schemas:
-    PixCriarNovaChave:
-      required:
-        - tipoChave
-        - valorChave
-        - tipoConta
-        - numeroAgencia
-        - numeroConta
-        - nomeCorrentista
+    Correntista:
       type: object
       properties:
-        tipoChave:
-          $ref: '#/components/schemas/TipoChave'
-        valorChave:
-          type: string
-          maximum: 77
-          minimum: 1
         tipoConta:
-          $ref: '#/components/schemas/TipoConta'
+          $ref: "#/components/schemas/TipoConta"
         numeroAgencia:
-          type: number
-          minimum: 4
-          maximum: 4
+          $ref: "#/components/schemas/NumeroAgencia"
         numeroConta:
-          type: number
-          minimum: 8
-          maximum: 8
+          $ref: "#/components/schemas/NumeroConta"
         nomeCorrentista:
-          type: string
-          minimum: 1
-          maximum: 30
+          $ref: "#/components/schemas/NomeCorrentista"
         sobrenomeCorrentista:
-          type: string
-          minimum: 1
-          maximum: 45
+          $ref: "#/components/schemas/SobrenomeCorrentista"
+        idCorrentista:
+          $ref: "#/components/schemas/IdCorrentista"
+        tipoCorrentista:
+          $ref: "#/components/schemas/TipoConta"
+        pix:
+          $ref: "#/components/schemas/Pix"
+    Pix:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/Id"
+        tipoChave:
+          $ref: "#/components/schemas/TipoChave"
+        valorChave:
+          $ref: "#/components/schemas/ValorChave"
+        dataHoraInclusaoChave:
+          $ref: "#/components/schemas/DataHoraInclusaoChave"
+        dataHoraInativacaoChave:
+          $ref: "#/components/schemas/NumeroConta"
+    Id:
+      type: string
+      format: uuid
+      example: fe88226e-b460-4abc-a759-576355e3f18a
     TipoChave:
       type: string
-      enum:
-        - celular
-        - email
-        - cpf
-        - cnpj
-        - aleatorio
+      format: string
+      maxLength: 9
+      example: email
+    ValorChave:
+      type: string
+      minLength: 1
+      maxLength: 77
     TipoConta:
       type: string
-      enum:
-        - corrente
-        - poupanca
-    Pix:
+      format: string
+      maxLength: 10
+      example: poupanca
+    NumeroAgencia:
+      type: integer
+      pattern: ^\d{4}$
+      example: 0001
+    NumeroConta:
+      type: integer
+      pattern: ^\d{8}$
+      example: 02354875
+    AgenciaConta:
+      type: integer
+      pattern: ^\d{12}$
+      example: 000102354875
+    NomeCorrentista:
+      type: string
+      maxLength: 30
+      example: Harry
+    SobrenomeCorrentista:
+      type: string
+      maxLength: 45
+      example: Potter
+    DataHoraInclusaoChave:
+      type: string
+      format: date-time
+      example: 2021-02-22T17:53:28.809568Z
+    DataHoraInativacaoChave:
+      type: string
+      format: date-time
+      example: 2021-02-22T17:53:28.809568Z
+    IdCorrentista:
+      type: string
+      example: 12PF3D
+    TipoCorrentista:
+      type: string
+      maxLength: 2
+      example: PF
+    Error:
       type: object
       properties:
-        id:
-          $ref: '#/components/schemas/Id'
-        tipoChave:
-          $ref: '#/components/schemas/TipoChave'
-        valorChave:
+        detalhe:
           type: string
-          maximum: 77
-          minimum: 1
-        tipoConta:
-          $ref: '#/components/schemas/TipoConta'
-        numeroAgencia:
-          type: number
-          minimum: 4
-          maximum: 4
-        numeroConta:
-          type: number
-          minimum: 8
-          maximum: 8
-        nomeCorrentista:
+          example: valor não pode se nulo
+        valorInformado:
           type: string
-          minimum: 1
-          maximum: 30
-        sobrenomeCorrentista:
+          example: null
+        valorEsperado:
           type: string
-          minimum: 1
-          maximum: 45
-        dataCriacao:
-          type: string
-          format: date-time
-        dataInativacao:
-          type: string
-          format: date-time
-    Id:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-      example: fe88226e-b460-4abc-a759-576355e3f18a
+          example: CONTA
   requestBodies:
-    Pix:
-      description: criar uma nova chave
+    PixIncluirRequest:
+      description: incluir uma nova chave
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/PixCriarNovaChave'
+            type: object
+            required:
+              - tipoChave
+              - valorChave
+              - tipoConta
+              - numeroAgencia
+              - numeroConta
+              - nomeCorrentista
+              - idCorrentista
+              - tipoCorrentista
+            properties:
+              tipoConta:
+                $ref: "#/components/schemas/TipoConta"
+              numeroAgencia:
+                $ref: "#/components/schemas/NumeroAgencia"
+              numeroConta:
+                $ref: "#/components/schemas/NumeroConta"
+              nomeCorrentista:
+                $ref: "#/components/schemas/NomeCorrentista"
+              sobrenomeCorrentista:
+                $ref: "#/components/schemas/SobrenomeCorrentista"
+              idCorrentista:
+                $ref: "#/components/schemas/IdCorrentista"
+              tipoCorrentista:
+                $ref: "#/components/schemas/TipoCorrentista"
+              pix:
+                type: object
+                properties:
+                  tipoChave:
+                    $ref: "#/components/schemas/TipoChave"
+                  valorChave:
+                    $ref: "#/components/schemas/ValorChave"
+          examples:
+            Celular:
+              summary: CELULAR
+              value:
+                tipoConta: poupanca
+                numeroAgencia: 0154
+                numeroConta: 01023658
+                nomeCorrentista: Harry
+                sobrenomeCorrentista: Potter
+                idCorrentista: 12345678978
+                tipoCorrentista: PF
+                pix:
+                  tipoChave: celular
+                  valorChave: +551912345678
+            CPF:
+              summary: CPF
+              value:
+                tipoConta: corrente
+                numeroAgencia: 0154
+                numeroConta: 01023658
+                nomeCorrentista: Harry
+                sobrenomeCorrentista: Potter
+                idCorrentista: 12345678978
+                tipoCorrentista: PF
+                pix:
+                  tipoChave: cpf
+                  valorChave: 12345678911
+            CNPJ:
+              summary: CNPJ
+              value:
+                tipoConta: corrente
+                numeroAgencia: 0154
+                numeroConta: 01023658
+                nomeCorrentista: Harry
+                sobrenomeCorrentista: Potter
+                idCorrentista: 12345678978
+                tipoCorrentista: PJ
+                pix:
+                  tipoChave: cnpj
+                  valorChave: 13254785000174
+            EMAIL:
+              summary: EMAIL
+              value:
+                tipoConta: corrente
+                numeroAgencia: 0154
+                numeroConta: 01023658
+                nomeCorrentista: Harry
+                sobrenomeCorrentista: Potter
+                idCorrentista: 12345678978
+                tipoCorrentista: PF
+                pix:
+                  tipoChave: email
+                  valorChave: harry@potter.com
+            ALEATORIO:
+              summary: ALEATORIO
+              value:
+                tipoConta: corrente
+                numeroAgencia: 0154
+                numeroConta: 01023658
+                nomeCorrentista: Harry
+                sobrenomeCorrentista: Potter
+                idCorrentista: 12345678978
+                tipoCorrentista: PF
+                pix:
+                  tipoChave: aleatorio
+                  valorChave: MinhaChaveAleatoria
+    PixAlterarBody:
+      description: alterar uma nova chave
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - tipoChave
+              - valorChave
+              - tipoConta
+              - numeroAgencia
+              - numeroConta
+              - nomeCorrentista
+              - idCorrentista
+              - tipoCorrentista
+            properties:
+              tipoConta:
+                $ref: "#/components/schemas/TipoConta"
+              numeroAgencia:
+                $ref: "#/components/schemas/NumeroAgencia"
+              numeroConta:
+                $ref: "#/components/schemas/NumeroConta"
+              nomeCorrentista:
+                $ref: "#/components/schemas/NomeCorrentista"
+              sobrenomeCorrentista:
+                $ref: "#/components/schemas/SobrenomeCorrentista"
+          examples:
+            Celular:
+              summary: CELULAR
+              value:
+                tipoConta: poupanca
+                numeroAgencia: 0154
+                numeroConta: 01023658
+                nomeCorrentista: Harry
+                sobrenomeCorrentista: Potter
+            CPF:
+              summary: CPF
+              value:
+                tipoConta: corrente
+                numeroAgencia: 0154
+                numeroConta: 01023658
+                nomeCorrentista: Harry
+                sobrenomeCorrentista: Potter
+            CNPJ:
+              summary: CNPJ
+              value:
+                tipoConta: corrente
+                numeroAgencia: 0154
+                numeroConta: 01023658
+                nomeCorrentista: Harry
+                sobrenomeCorrentista: Potter
+            EMAIL:
+              summary: EMAIL
+              value:
+                tipoConta: corrente
+                numeroAgencia: 0154
+                numeroConta: 01023658
+                nomeCorrentista: Harry
+                sobrenomeCorrentista: Potter
+            ALEATORIO:
+              summary: ALEATORIO
+              value:
+                tipoConta: corrente
+                numeroAgencia: 0154
+                numeroConta: 01023658
+                nomeCorrentista: Harry
+                sobrenomeCorrentista: Potter
   responses:
-    Pix:
-      description: criar uma nova chave
+    PixIncluirResponse:
+      description: incluir uma nova chave
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Id'
+            type: object
+            properties:
+              id:
+                $ref: '#/components/schemas/Id'
           example:
             id: fe88226e-b460-4abc-a759-576355e3f18a
+    PixIntivaResponse:
+      description: inativar uma chave pix
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Pix'
+          examples:
+            Inativar:
+              summary: Inativar uma chave pix
+              value:
+                tipoChave: celular
+                valorChave: +551912345678
+                tipoConta: poupanca
+                numeroAgencia: 0154
+                numeroConta: 01023658
+                nomeCorrentista: Harry
+                sobrenomeCorrentista: Potter
+                dataHoraInclusaoChave: 2021-02-22T17:53:28.809568Z
+                dataHoraInativacaoChave: 2021-02-22T17:53:28.809568Z
+                pix:
+                  id: fe88226e-b460-4abc-a759-576355e3f18a
+    PixAlterarResponse:
+      description: inativar uma chave pix
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              tipoConta:
+                $ref: "#/components/schemas/TipoConta"
+              numeroAgencia:
+                $ref: "#/components/schemas/NumeroAgencia"
+              numeroConta:
+                $ref: "#/components/schemas/NumeroConta"
+              nomeCorrentista:
+                $ref: "#/components/schemas/NomeCorrentista"
+              sobrenomeCorrentista:
+                $ref: "#/components/schemas/SobrenomeCorrentista"
+              pix:
+                type: object
+                properties:
+                  id:
+                    $ref: "#/components/schemas/Id"
+                  tipoChave:
+                    $ref: "#/components/schemas/TipoChave"
+                  valorChave:
+                    $ref: "#/components/schemas/ValorChave"
+                  dataHoraInclusaoChave:
+                    $ref: "#/components/schemas/DataHoraInclusaoChave"
+          examples:
+            Alterar:
+              summary: alterar uma chave pix
+              value:
+                tipoChave: celular
+                valorChave: +551912345678
+                tipoConta: poupanca
+                numeroAgencia: 0154
+                numeroConta: 01023658
+                nomeCorrentista: Harry
+                sobrenomeCorrentista: Potter
+                dataHoraInclusaoChave: 2021-02-22T17:53:28.809568Z
+                pix:
+                  id: fe88226e-b460-4abc-a759-576355e3f18a
+    PixBuscaResponse:
+      description: buscar uma chave pix
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Pix'
+          examples:
+            Buscar:
+              summary: buscar uma chave pix
+              value:
+                tipoChave: celular
+                valorChave: +551912345678
+                tipoConta: poupanca
+                numeroAgencia: 0154
+                numeroConta: 01023658
+                nomeCorrentista: Harry
+                sobrenomeCorrentista: Potter
+                dataHoraInclusaoChave: 2021-02-22T17:53:28.809568Z
+                pix:
+                  id: fe88226e-b460-4abc-a759-576355e3f18a
+    Error:
+      description: Dados informados invalidos
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    IdQuery:
+      name: id
+      in: query
+      description: id da chave
+      required: false
+      schema:
+        $ref: '#/components/schemas/Id'
+    IdPath:
+      name: id
+      in: path
+      description: id da chave
+      required: true
+      schema:
+        $ref: '#/components/schemas/Id'
+    TipoChave:
+      name: tipoChave
+      in: query
+      description: tipo da chave
+      required: false
+      schema:
+        $ref: '#/components/schemas/TipoChave'
+    AgenciaConta:
+      name: agenciaConta
+      in: query
+      description: agencia e conta da chave
+      required: false
+      schema:
+        $ref: "#/components/schemas/AgenciaConta"
+    NomeCorrentista:
+      name: nomeCorrentista
+      in: query
+      description: nome correntista da chave
+      required: false
+      schema:
+        $ref: "#/components/schemas/NomeCorrentista"
+    DataHoraInclusaoChave:
+      name: dataHoraInclusaoChave
+      in: query
+      description: data e hora inclusão da chave
+      required: false
+      schema:
+        $ref: "#/components/schemas/DataHoraInclusaoChave"
+    DataHoraInativacaoChave:
+      name: dataHoraInativacaoChave
+      in: query
+      description: data e hora inativação da chave
+      required: false
+      schema:
+        $ref: "#/components/schemas/DataHoraInativacaoChave"
