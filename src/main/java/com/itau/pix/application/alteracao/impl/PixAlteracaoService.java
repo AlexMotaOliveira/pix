@@ -1,8 +1,8 @@
 package com.itau.pix.application.alteracao.impl;
 
 
-import com.itau.pix.application.alteracao.CadastroChavesPixDTO;
-import com.itau.pix.application.alteracao.CorrentistaRequestDTO;
+import com.itau.pix.application.alteracao.dto.CadastroChavesPixDTO;
+import com.itau.pix.application.alteracao.dto.CorrentistaRequestDTO;
 import com.itau.pix.application.error.PixEntityNotFoundException;
 import com.itau.pix.application.error.PixError;
 import com.itau.pix.domain.enums.SituacaoChave;

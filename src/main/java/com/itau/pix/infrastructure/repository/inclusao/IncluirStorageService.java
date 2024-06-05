@@ -29,7 +29,7 @@ public class IncluirStorageService implements IncluirStorage {
   }
 
   @Override
-  public int countByIdCorrentistaAndNumeroAgenciaAndNumeroConta(Long idCorrentista, int numeroAgencia, long numeroConta) {
+  public int countByIdCorrentistaAndNumeroAgenciaAndNumeroConta(String idCorrentista, int numeroAgencia, long numeroConta) {
     return correntistaRepository.countByIdCorrentistaAndNumeroAgenciaAndNumeroConta(idCorrentista, numeroAgencia, numeroConta);
   }
 

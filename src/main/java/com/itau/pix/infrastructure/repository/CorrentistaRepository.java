@@ -2,16 +2,12 @@ package com.itau.pix.infrastructure.repository;
 
 import com.itau.pix.infrastructure.entity.CorrentistaEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
-import java.util.UUID;
-
-public interface CorrentistaRepository extends JpaRepository<CorrentistaEntity, Long> {
+public interface CorrentistaRepository extends JpaRepository<CorrentistaEntity, String> {
 
 
-
-
-  int countByIdCorrentistaAndNumeroAgenciaAndNumeroConta(Long idCorrentista,
+  //TODO validar a quantidade de chaves cadastradas
+  int countByIdCorrentistaAndNumeroAgenciaAndNumeroConta(String idCorrentista,
                                                          int numeroAgencia,
                                                          long numeroConta);
 

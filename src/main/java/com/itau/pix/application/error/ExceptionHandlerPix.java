@@ -1,5 +1,6 @@
 package com.itau.pix.application.error;
 
+import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.UnexpectedTypeException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -46,6 +47,13 @@ public class ExceptionHandlerPix {
 
   @ExceptionHandler(UnexpectedTypeException.class)
   public ResponseEntity<Error> handleExceptions(UnexpectedTypeException ex) {
+    Error error = new Error(ex.getCause().toString(), ex.getMessage());
+    log.error("{} ", error, ex);
+    return ResponseEntity.unprocessableEntity().body(error);
+  }
+
+  @ExceptionHandler(ConstraintViolationException.class)
+  public ResponseEntity<Error> handleExceptions(ConstraintViolationException ex) {
     Error error = new Error(ex.getCause().toString(), ex.getMessage());
     log.error("{} ", error, ex);
     return ResponseEntity.unprocessableEntity().body(error);

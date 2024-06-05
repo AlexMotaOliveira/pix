@@ -1,6 +1,8 @@
 package com.itau.pix.application.alteracao;
 
 
+import com.itau.pix.application.alteracao.dto.CadastroChavesPixDTO;
+import com.itau.pix.application.alteracao.dto.CorrentistaRequestDTO;
 import com.itau.pix.application.alteracao.impl.PixAlteracaoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

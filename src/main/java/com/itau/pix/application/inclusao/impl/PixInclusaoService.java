@@ -35,7 +35,7 @@ public class PixInclusaoService implements PixInclusaoInterface {
 
     Correntista correntista = cadastroChavesPix.correntista();
     int quantidadeChavesCorrentista = storage.
-      countByIdCorrentistaAndNumeroAgenciaAndNumeroConta(Long.valueOf(correntista.idCorrentista()),
+      countByIdCorrentistaAndNumeroAgenciaAndNumeroConta(correntista.idCorrentista(),
         correntista.numeroAgencia(), correntista.numeroConta());
 
     TipoCorrentista tipoCorrentista = TipoCorrentista.fromString(correntista.tipoCorrentista());

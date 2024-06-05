@@ -1,4 +1,4 @@
-package com.itau.pix.application.inativacao;
+package com.itau.pix.application.inativacao.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.itau.pix.domain.enums.TipoConta;

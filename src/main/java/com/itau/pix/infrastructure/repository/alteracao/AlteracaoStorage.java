@@ -1,9 +1,8 @@
 package com.itau.pix.infrastructure.repository.alteracao;
 
 
-import com.itau.pix.application.alteracao.CadastroChavesPixDTO;
-import com.itau.pix.application.alteracao.CorrentistaRequestDTO;
-import com.itau.pix.domain.Correntista;
+import com.itau.pix.application.alteracao.dto.CadastroChavesPixDTO;
+import com.itau.pix.application.alteracao.dto.CorrentistaRequestDTO;
 import com.itau.pix.domain.enums.SituacaoChave;
 
 import java.util.UUID;

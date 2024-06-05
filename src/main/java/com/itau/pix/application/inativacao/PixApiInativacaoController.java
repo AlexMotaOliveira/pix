@@ -1,5 +1,6 @@
 package com.itau.pix.application.inativacao;
 
+import com.itau.pix.application.inativacao.dto.CadastroChavesPixDTO;
 import com.itau.pix.application.inativacao.impl.PixInativacaoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

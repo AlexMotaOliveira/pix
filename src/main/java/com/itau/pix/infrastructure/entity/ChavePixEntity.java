@@ -26,6 +26,8 @@ import org.hibernate.validator.constraints.br.CPF;
 import org.hibernate.validator.group.GroupSequenceProvider;
 
 import java.nio.charset.StandardCharsets;
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
@@ -55,12 +57,13 @@ public class ChavePixEntity {
   @Column(name = "SITUACAO_CHAVE", nullable = false)
   private SituacaoChave situacaoChave;
 
+  //Ajustar as horas
   @CreationTimestamp
   @Column(name = "DATA_HORA_INCLUSAO_DA_CHAVE", updatable = false, nullable = false)
-  private OffsetDateTime dataHoraInclusaoDaChave;
+  private Timestamp dataHoraInclusaoDaChave;
 
   @Column(name = "DATA_HORA_INATIVACAO_DA_CHAVE", length = 4)
-  private OffsetDateTime dataHoraInativacaoDaChave;
+  private Timestamp dataHoraInativacaoDaChave;
 
   public ChavePixEntity() {
 

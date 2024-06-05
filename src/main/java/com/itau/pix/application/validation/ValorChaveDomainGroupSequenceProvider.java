@@ -2,7 +2,6 @@ package com.itau.pix.application.validation;
 
 import com.itau.pix.domain.ChavePix;
 import com.itau.pix.domain.enums.TipoChave;
-import com.itau.pix.infrastructure.entity.ChavePixEntity;
 import org.hibernate.validator.spi.group.DefaultGroupSequenceProvider;
 
 import java.util.ArrayList;
@@ -14,9 +13,11 @@ public class ValorChaveDomainGroupSequenceProvider implements DefaultGroupSequen
   @Override
   public List<Class<?>> getValidationGroups(ChavePix chavePix) {
     List<Class<?>> groups = new ArrayList<>();
-    groups.add(ChavePixEntity.class);
-    TipoChave tipoConta = TipoChave.fromString(chavePix.tipoChave());
-    groups.add(tipoConta.getGroup());
+    groups.add(ChavePix.class);
+    if (chavePix != null) {
+      TipoChave tipoConta = TipoChave.fromString(chavePix.tipoChave());
+      groups.add(tipoConta.getGroup());
+    }
     return groups;
   }
 }

@@ -1,9 +1,9 @@
 package com.itau.pix.infrastructure.repository.alteracao;
 
-import com.itau.pix.application.alteracao.CadastroChavesPixDTO;
-import com.itau.pix.application.alteracao.ChavePixDTO;
-import com.itau.pix.application.alteracao.CorrentistaDTO;
-import com.itau.pix.application.alteracao.CorrentistaRequestDTO;
+import com.itau.pix.application.alteracao.dto.CadastroChavesPixDTO;
+import com.itau.pix.application.alteracao.dto.ChavePixDTO;
+import com.itau.pix.application.alteracao.dto.CorrentistaDTO;
+import com.itau.pix.application.alteracao.dto.CorrentistaRequestDTO;
 import com.itau.pix.domain.enums.SituacaoChave;
 import com.itau.pix.domain.enums.TipoConta;
 import com.itau.pix.infrastructure.entity.ChavePixEntity;
@@ -28,7 +28,7 @@ public class AlteracaoStorageService implements AlteracaoStorage {
   @Override
   public CadastroChavesPixDTO alterar(CorrentistaRequestDTO correntista, String idCorrentista, UUID idChavePix) {
     CorrentistaRepository repository = correntistaRepository;
-    CorrentistaEntity correntistaEntity = repository.getReferenceById(Long.valueOf(idCorrentista));
+    CorrentistaEntity correntistaEntity = repository.getReferenceById(idCorrentista);
     correntistaEntity.setTipoConta(TipoConta.fromString(correntista.tipoConta()));
     correntistaEntity.setNumeroAgencia(correntista.numeroAgencia());
     correntistaEntity.setNumeroConta(correntista.numeroConta());

@@ -20,10 +20,10 @@ public class CadastroChavesPixEntity {
   @UuidGenerator
   private UUID idChavePix;
 
-  private Long idCorrentista;
+  private String idCorrentista;
 
-  public CadastroChavesPixEntity(Long idCorrentista, UUID idChavePix) {
-    this.id = UUID.nameUUIDFromBytes((idCorrentista.byteValue() + idChavePix.toString()).getBytes(StandardCharsets.UTF_8));
+  public CadastroChavesPixEntity(String idCorrentista, UUID idChavePix) {
+    this.id = UUID.nameUUIDFromBytes(idCorrentista.concat(idChavePix.toString()).getBytes(StandardCharsets.UTF_8));
     this.idChavePix = idChavePix;
     this.idCorrentista = idCorrentista;
   }

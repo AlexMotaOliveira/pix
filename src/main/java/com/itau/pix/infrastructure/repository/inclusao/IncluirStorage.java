@@ -7,9 +7,10 @@ import java.util.UUID;
 
 public interface IncluirStorage {
 
+  int countByIdCorrentistaAndNumeroAgenciaAndNumeroConta(String idCorrentista, int numeroAgencia, long numeroConta);
+
   UUID incluir(com.itau.pix.domain.CadastroChavesPix cadastroChavesPix);
 
   boolean existsByIdAndSituacaoChave(UUID id, SituacaoChave situacaoChave);
 
-  int countByIdCorrentistaAndNumeroAgenciaAndNumeroConta(Long idCorrentista, int numeroAgencia, long numeroConta);
 }

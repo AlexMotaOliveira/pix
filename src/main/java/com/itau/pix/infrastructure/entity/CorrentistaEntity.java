@@ -5,8 +5,6 @@ import com.itau.pix.domain.enums.TipoConta;
 import com.itau.pix.domain.enums.TipoCorrentista;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Max;
@@ -20,7 +18,7 @@ import lombok.Data;
 public class CorrentistaEntity {
 
   @Id
-  private Long idCorrentista;
+  private String idCorrentista;
 
   @Column(name = "TIPO_CONTA", nullable = false)
   private TipoConta tipoConta;
@@ -55,7 +53,7 @@ public class CorrentistaEntity {
     this.numeroConta = correntista.numeroConta();
     this.nomeCorrentista = correntista.nomeCorrentista();
     this.sobrenomeCorrentista = correntista.sobrenomeCorrentista();
-    this.idCorrentista = Long.valueOf(correntista.idCorrentista());
+    this.idCorrentista = correntista.idCorrentista();
     this.tipoCorrentista = TipoCorrentista.fromString(correntista.tipoCorrentista());
   }
 }

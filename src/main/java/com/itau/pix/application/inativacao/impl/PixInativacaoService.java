@@ -2,7 +2,7 @@ package com.itau.pix.application.inativacao.impl;
 
 
 import com.itau.pix.application.error.PixError;
-import com.itau.pix.application.inativacao.CadastroChavesPixDTO;
+import com.itau.pix.application.inativacao.dto.CadastroChavesPixDTO;
 import com.itau.pix.application.inativacao.PixInativacaoInterface;
 import com.itau.pix.infrastructure.repository.inativacao.InativacaoStorageService;
 import jakarta.persistence.EntityNotFoundException;

@@ -1,8 +1,7 @@
 package com.itau.pix.infrastructure.repository.inativacao;
 
 
-import com.itau.pix.application.inativacao.CadastroChavesPixDTO;
-import com.itau.pix.infrastructure.entity.CadastroChavesPixEntity;
+import com.itau.pix.application.inativacao.dto.CadastroChavesPixDTO;
 
 import java.util.UUID;
 

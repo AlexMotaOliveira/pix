@@ -1,7 +1,6 @@
-package com.itau.pix.application.alteracao;
+package com.itau.pix.application.alteracao.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.itau.pix.domain.enums.TipoConta;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 
