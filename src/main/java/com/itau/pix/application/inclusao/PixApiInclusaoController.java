@@ -19,7 +19,7 @@ public class PixApiInclusaoController {
 
   private final PixInclusaoService pixInclusaoService;
 
-  @PostMapping("/teste")
+  @PostMapping("/cadastro")
   public ResponseEntity<UUID> incluir(@RequestBody @Valid CadastroChavesPix cadastroChavesPix) {
     UUID uuid = pixInclusaoService.incluirChave(cadastroChavesPix);
     return ResponseEntity.ok(uuid);

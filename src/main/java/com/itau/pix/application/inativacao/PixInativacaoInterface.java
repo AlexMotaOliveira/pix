@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public interface PixInativacaoInterface {
 
-  CadastroChavesPixDTO inativar(UUID id, String IdCorrentista);
+  CadastroChavesPixDTO inativar(UUID id, String idCorrentista);
 
 
 }

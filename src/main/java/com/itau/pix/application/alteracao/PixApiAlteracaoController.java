@@ -21,7 +21,7 @@ public class PixApiAlteracaoController {
 
   private final PixAlteracaoService alteracaoService;
 
-  @PatchMapping("/teste/{idCorrentista}/chavepix/{idChavePix}")
+  @PatchMapping("/cadastro/{idCorrentista}/pix/{idChavePix}")
   public ResponseEntity<CadastroChavesPixDTO> inativar(@PathVariable String idCorrentista,
                                                        @PathVariable UUID idChavePix,
                                                        @RequestBody @Valid CorrentistaRequestDTO correntista) {
@@ -29,4 +29,5 @@ public class PixApiAlteracaoController {
     return ResponseEntity.ok(cadastroChavesPixDTO);
   }
 
+  //https://www.baeldung.com/spring-rest-openapi-documentation
 }

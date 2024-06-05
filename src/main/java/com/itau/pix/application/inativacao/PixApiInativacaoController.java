@@ -19,9 +19,9 @@ public class PixApiInativacaoController {
 
   private final PixInativacaoService alteracaoService;
 
-  @DeleteMapping("/teste/{IdCorrentista}/chavepix/{idChavePix}")
-  public ResponseEntity<CadastroChavesPixDTO> inativar(@PathVariable String IdCorrentista, @PathVariable UUID idChavePix) {
-    CadastroChavesPixDTO cadastroChavesPixDTO = alteracaoService.inativar(idChavePix, IdCorrentista);
+  @DeleteMapping("/cadastro/{idCorrentista}/pix/{idChavePix}")
+  public ResponseEntity<CadastroChavesPixDTO> inativar(@PathVariable String idCorrentista, @PathVariable UUID idChavePix) {
+    CadastroChavesPixDTO cadastroChavesPixDTO = alteracaoService.inativar(idChavePix, idCorrentista);
     return ResponseEntity.ok(cadastroChavesPixDTO);
   }
 

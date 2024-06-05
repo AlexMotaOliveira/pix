@@ -30,7 +30,7 @@ spring:
 server:
   port: 9090
   servlet:
-    context-path: /pix
+    context-path: /
 
 #spring:
 #  application:
