@@ -1,11 +1,11 @@
 package com.itau.pix.application.alteracao;
 
-import com.itau.pix.infrastructure.entity.CadastroChavesPix;
+import com.itau.pix.infrastructure.entity.CadastroChavesPixEntity;
 
 import java.util.UUID;
 
 public interface PixAlteracaoInterface {
 
-  CadastroChavesPix alterarChave(Correntista correntista, UUID uuid);
+  CadastroChavesPixEntity alterarChave(CorrentistaRequestDTO correntista, UUID uuid);
 
 }

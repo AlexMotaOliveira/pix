@@ -1,23 +1,8 @@
 package com.itau.pix.domain;
 
-import com.itau.pix.infrastructure.entity.ChavePixEntity;
-import com.itau.pix.infrastructure.entity.CorrentistaEntity;
+import jakarta.validation.Valid;
 
 
-public class CadastroChavesPix {
+public record CadastroChavesPix(@Valid Correntista correntista, @Valid ChavePix chavePix) {
 
-  private Long id;
-
-  CorrentistaEntity correntista;
-
-  ChavePixEntity chavePix;
-
-  public CadastroChavesPix(CorrentistaEntity correntista, ChavePixEntity chavePix) {
-    this.correntista = correntista;
-    this.chavePix = chavePix;
-  }
-
-  public CadastroChavesPix() {
-
-  }
 }

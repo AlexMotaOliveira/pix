@@ -1,5 +1,6 @@
 package com.itau.pix.application.error;
 
+import jakarta.validation.UnexpectedTypeException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -7,6 +8,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,6 +35,20 @@ public class ExceptionHandlerPix {
     errors.put("error", ex.getMessage());
     log.error("", ex);
     return ResponseEntity.unprocessableEntity().body(errors);
+  }
+
+  @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+  public ResponseEntity<Error> handleExceptions(MethodArgumentTypeMismatchException ex) {
+    Error error = new Error(ex.getErrorCode(), ex.getMessage());
+    log.error("{} ", error, ex);
+    return ResponseEntity.unprocessableEntity().body(error);
+  }
+
+  @ExceptionHandler(UnexpectedTypeException.class)
+  public ResponseEntity<Error> handleExceptions(UnexpectedTypeException ex) {
+    Error error = new Error(ex.getCause().toString(), ex.getMessage());
+    log.error("{} ", error, ex);
+    return ResponseEntity.unprocessableEntity().body(error);
   }
 
   @ExceptionHandler(ViolacaoRegrasPixException.class)

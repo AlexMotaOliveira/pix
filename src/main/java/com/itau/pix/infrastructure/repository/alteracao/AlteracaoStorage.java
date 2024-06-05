@@ -1,13 +1,17 @@
 package com.itau.pix.infrastructure.repository.alteracao;
 
 
-import com.itau.pix.infrastructure.entity.CadastroChavesPix;
+import com.itau.pix.application.alteracao.CadastroChavesPixDTO;
+import com.itau.pix.application.alteracao.CorrentistaRequestDTO;
+import com.itau.pix.domain.Correntista;
+import com.itau.pix.domain.enums.SituacaoChave;
 
 import java.util.UUID;
 
 public interface AlteracaoStorage {
 
-  CadastroChavesPix alterar(CadastroChavesPix correntista);
 
-  CadastroChavesPix buscarPorChavePix(UUID uuid);
+  CadastroChavesPixDTO alterar(CorrentistaRequestDTO correntista, String idCorrentista, UUID idChavePix);
+
+  boolean existsByIdAndSituacaoChave(UUID id, String idCorrentista, SituacaoChave situacaoChave);
 }

@@ -1,25 +1,59 @@
 package com.itau.pix.infrastructure.repository.alteracao;
 
-import com.itau.pix.infrastructure.entity.CadastroChavesPix;
-import com.itau.pix.infrastructure.repository.CadastroChavePixRepository;
+import com.itau.pix.application.alteracao.CadastroChavesPixDTO;
+import com.itau.pix.application.alteracao.ChavePixDTO;
+import com.itau.pix.application.alteracao.CorrentistaDTO;
+import com.itau.pix.application.alteracao.CorrentistaRequestDTO;
+import com.itau.pix.domain.enums.SituacaoChave;
+import com.itau.pix.domain.enums.TipoConta;
+import com.itau.pix.infrastructure.entity.ChavePixEntity;
+import com.itau.pix.infrastructure.entity.CorrentistaEntity;
+import com.itau.pix.infrastructure.repository.ChavePixRepository;
+import com.itau.pix.infrastructure.repository.CorrentistaRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor_ = @__(@Autowired))
 public class AlteracaoStorageService implements AlteracaoStorage {
 
-  private final CadastroChavePixRepository cadastroChavePixRepository;
+
+  private final ChavePixRepository chavePixRepository;
+  private final CorrentistaRepository correntistaRepository;
 
   @Override
-  public CadastroChavesPix alterar(CadastroChavesPix correntista) {
-    return cadastroChavePixRepository.save(correntista);
+  public CadastroChavesPixDTO alterar(CorrentistaRequestDTO correntista, String idCorrentista, UUID idChavePix) {
+    CorrentistaRepository repository = correntistaRepository;
+    CorrentistaEntity correntistaEntity = repository.getReferenceById(Long.valueOf(idCorrentista));
+    correntistaEntity.setTipoConta(TipoConta.fromString(correntista.tipoConta()));
+    correntistaEntity.setNumeroAgencia(correntista.numeroAgencia());
+    correntistaEntity.setNumeroConta(correntista.numeroConta());
+    correntistaEntity.setNomeCorrentista(correntista.nomeCorrentista());
+    Optional.ofNullable(correntista.sobrenomeCorrentista())
+      .ifPresent(correntistaEntity::setSobrenomeCorrentista);
+
+    CorrentistaEntity correntistaAlterEntity = repository.save(correntistaEntity);
+    ChavePixEntity chavePixEntity = chavePixRepository.getReferenceById(idChavePix);
+    return criarObjetoBuilder(chavePixEntity, correntistaAlterEntity);
   }
 
   @Override
-  public CadastroChavesPix buscarPorChavePix(UUID uuid) {
-    return cadastroChavePixRepository.findByChavePix_Id(uuid);
+  public boolean existsByIdAndSituacaoChave(UUID id, String idCorrentista, SituacaoChave situacaoChave) {
+    return chavePixRepository.existsByIdAndSituacaoChave(id, situacaoChave);
+  }
+
+  private CadastroChavesPixDTO criarObjetoBuilder(ChavePixEntity pixEntity, CorrentistaEntity correntistaEntity) {
+    ChavePixDTO chavePixDTO = new ChavePixDTO(pixEntity.getId(), pixEntity.getTipoChave(), pixEntity.getValorChave(),
+      pixEntity.getDataHoraInclusaoDaChave());
+
+    CorrentistaDTO correntistaDTO = new CorrentistaDTO(String.valueOf(correntistaEntity.getIdCorrentista()),
+      correntistaEntity.getTipoConta(), correntistaEntity.getNumeroAgencia(), correntistaEntity.getNumeroConta(),
+      correntistaEntity.getNomeCorrentista(), correntistaEntity.getSobrenomeCorrentista());
+
+    return new CadastroChavesPixDTO(correntistaDTO, chavePixDTO);
   }
 }

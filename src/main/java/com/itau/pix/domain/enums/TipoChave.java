@@ -8,6 +8,7 @@ import com.itau.pix.application.validation.interfaces.ValidarTelefone;
 import com.itau.pix.application.error.ViolacaoRegrasPixException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
 
@@ -16,7 +17,7 @@ import java.util.Arrays;
  */
 
 @Getter
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor_ = @__(@Autowired))
 public enum TipoChave {
 
   celular("celular", ValidarTelefone.class),

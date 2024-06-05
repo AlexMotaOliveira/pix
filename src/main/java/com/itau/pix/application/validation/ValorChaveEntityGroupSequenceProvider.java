@@ -6,7 +6,7 @@ import org.hibernate.validator.spi.group.DefaultGroupSequenceProvider;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ValorChaveGroupSequenceProvider implements DefaultGroupSequenceProvider<ChavePixEntity> {
+public class ValorChaveEntityGroupSequenceProvider implements DefaultGroupSequenceProvider<ChavePixEntity> {
 
 
   @Override
@@ -17,7 +17,6 @@ public class ValorChaveGroupSequenceProvider implements DefaultGroupSequenceProv
     if (chavePixEntity != null && chavePixEntity.getTipoChave() != null) {
       groups.add(chavePixEntity.getTipoChave().getGroup());
     }
-
     return groups;
   }
 }

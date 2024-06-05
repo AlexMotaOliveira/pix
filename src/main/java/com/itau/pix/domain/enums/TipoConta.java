@@ -3,11 +3,12 @@ package com.itau.pix.domain.enums;
 import com.itau.pix.application.error.ViolacaoRegrasPixException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
 
 @Getter
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor_ = @__(@Autowired))
 public enum TipoConta {
 
   CORRENTE("corrente"),

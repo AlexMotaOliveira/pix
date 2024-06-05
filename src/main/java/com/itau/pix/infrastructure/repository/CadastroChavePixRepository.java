@@ -1,11 +1,9 @@
 package com.itau.pix.infrastructure.repository;
 
-import com.itau.pix.infrastructure.entity.CadastroChavesPix;
+import com.itau.pix.infrastructure.entity.CadastroChavesPixEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.UUID;
+public interface CadastroChavePixRepository extends JpaRepository<CadastroChavesPixEntity, Long> {
 
-public interface CadastroChavePixRepository extends JpaRepository<CadastroChavesPix, Long> {
-
-  CadastroChavesPix findByChavePix_Id(UUID uuid);
+//  CadastroChavesPixEntity findByChavePix_Id(UUID uuid);
 }

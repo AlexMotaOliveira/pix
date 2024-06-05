@@ -1,13 +1,15 @@
 package com.itau.pix.infrastructure.repository.inativacao;
 
 
-import com.itau.pix.infrastructure.entity.CadastroChavesPix;
+import com.itau.pix.application.inativacao.CadastroChavesPixDTO;
+import com.itau.pix.infrastructure.entity.CadastroChavesPixEntity;
 
 import java.util.UUID;
 
 public interface InativacaoStorage {
 
-  CadastroChavesPix inativar(CadastroChavesPix cadastroChavesPix);
+  CadastroChavesPixDTO inativar(UUID uuid, String idCorrentista);
 
-  CadastroChavesPix buscarPorChavePix(UUID uuid);
+
+  boolean existeChaveAtiva(UUID uuid, String idCorrentista);
 }
