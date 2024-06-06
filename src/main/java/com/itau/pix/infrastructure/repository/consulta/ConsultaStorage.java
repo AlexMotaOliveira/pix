@@ -1,14 +1,16 @@
 package com.itau.pix.infrastructure.repository.consulta;
 
 
-import com.itau.pix.infrastructure.entity.ChavePixEntity;
+import com.itau.pix.application.operacoes.consulta.dto.CadastroChavesPixDTO;
+import org.springframework.data.domain.Page;
 
 import java.util.UUID;
 
 public interface ConsultaStorage {
 
 
-  ChavePixEntity consultarId(UUID uuid);
+  Page<CadastroChavesPixDTO> consultarId(UUID uuid);
 
-  void consultarFiltroCombinado(String idCorrentista, String tipoChave, String valorChave, String agencia, String conta);
+
+  void consultarFiltroCombinado(String nomeCorrentista, String tipoChave, String agencia, String conta, String quantidade, String paginacao);
 }
